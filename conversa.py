@@ -66,13 +66,13 @@ if uploaded_file is not None:
     ]
     
     selected_question = st.selectbox("Escolha uma pergunta:", example_questions)
-    if st.button("Perguntar"):
+    if st.button("Pergunta Exemplo"):
         response = chat_with_llm(selected_question, document_text)
         st.write("#### Resposta:")
         st.write(response)
     
     user_input = st.text_input("Digite sua pergunta:")
-    if user_input:
+    if st.button("Pergunta Personalisada"):
         response = chat_with_llm(user_input, document_text)
         st.write("#### Resposta:")
         st.write(response)
