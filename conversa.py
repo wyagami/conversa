@@ -3,6 +3,18 @@ import requests
 import json
 import PyPDF2
 
+
+with st.sidebar:
+    st.sidebar.header("Converse com seus Documentos")
+    st.sidebar.write("""
+    Carregue um PDF ou TXT e faça perguntas.
+    Por exemplo: Obter detalhes de um contrato, respostas de uma estudo escolar, etc.
+                     
+    - Caso tenha alguma idéia para publicarmos, envie uma mensagem para: 11-990000425 (Willian)
+    - Contribua com qualquer valor para mantermos a pagina no ar. PIX (wpyagami@gmail.com)
+    """)
+
+
 # Função para extrair texto de um PDF
 def extract_text_from_pdf(uploaded_file):
     text = ""
@@ -45,8 +57,6 @@ if uploaded_file is not None:
     else:
         document_text = uploaded_file.getvalue().decode("utf-8")
     
-    st.text_area("Conteúdo do Documento", document_text[:1000] + "...", height=150)
-    
     example_questions = [
         "Qual é o resumo do documento?",
         "Quais são os principais tópicos abordados?",
@@ -55,12 +65,11 @@ if uploaded_file is not None:
         "O documento faz alguma recomendação?"
     ]
     
-    st.write("### Perguntas sugeridas:")
-    for q in example_questions:
-        if st.button(q):
-            response = chat_with_llm(q, document_text)
-            st.write("#### Resposta:")
-            st.write(response)
+    selected_question = st.selectbox("Escolha uma pergunta:", example_questions)
+    if st.button("Perguntar"):
+        response = chat_with_llm(selected_question, document_text)
+        st.write("#### Resposta:")
+        st.write(response)
     
     user_input = st.text_input("Digite sua pergunta:")
     if user_input:
